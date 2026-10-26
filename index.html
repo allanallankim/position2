@@ -170,6 +170,7 @@
               <span id="countdown-number" class="absolute text-7xl font-extrabold text-white font-mono">3</span>
             </div>
             <h3 class="text-2xl font-bold text-white mt-6">바른 자세를 유지해 주세요!</h3>
+            <p id="countdown-target-profile" class="text-xs text-emerald-400 font-semibold mt-1">사무실 (데스크탑) 환경 기준 설정 중</p>
             <p class="text-sm text-slate-300 mt-2 text-center max-w-sm px-4">
               <strong>가슴과 등을 곧게 펴고</strong>, 턱을 가볍게 당겨 양 어깨 수평을 맞춘 뒤 정면을 응시하세요.
             </p>
@@ -212,46 +213,88 @@
             </p>
           </div>
 
-          <!-- Bottom Left HUD: Baseline Status -->
-          <div class="absolute bottom-4 left-4 pointer-events-none flex items-center space-x-2 bg-slate-900/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs z-10">
+          <!-- Bottom Left HUD: Baseline & Cookie Status -->
+          <div class="absolute bottom-4 left-4 pointer-events-none flex items-center space-x-2 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs z-10">
             <span id="calib-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
             <span id="calib-indicator-text" class="text-slate-200 font-medium">기준 미설정 (3초 캘리브레이션 권장)</span>
           </div>
 
           <!-- Bottom Right HUD: FPS Display -->
-          <div class="absolute bottom-4 right-4 pointer-events-none bg-slate-900/85 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-800 text-[11px] text-slate-400 font-mono z-10">
+          <div class="absolute bottom-4 right-4 pointer-events-none bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-800 text-[11px] text-slate-400 font-mono z-10">
             FPS: <span id="fps-display" class="text-emerald-400 font-bold">0</span>
           </div>
 
         </div>
 
-        <!-- Primary Action Toolbar -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg">
-          <div class="flex items-center space-x-2.5">
-            <!-- 웹캠 켜기/끄기 토글 -->
-            <button id="btn-toggle-cam" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 text-sm font-semibold transition flex items-center space-x-2">
-              <svg id="icon-cam-running" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span id="btn-cam-text">일시 정지</span>
-            </button>
+        <!-- Multi-Profile Environment & Cookie Storage Toolbar -->
+        <div class="bg-slate-900/85 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3.5">
+          
+          <!-- Profile Selector Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+            <div class="flex items-center space-x-2.5 flex-1 min-w-[280px]">
+              <span class="text-xs font-semibold text-slate-300 flex items-center space-x-1.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span>자세 기준 환경:</span>
+              </span>
 
-            <!-- 기준점 설정 (3초 캘리브레이션) 버튼 -->
-            <button id="btn-calibrate" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:scale-95 text-slate-950 text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center space-x-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <!-- Profile Select Dropdown -->
+              <div class="relative flex-1">
+                <select id="profile-select" class="w-full bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-100 text-xs rounded-xl pl-3 pr-8 py-2 font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none transition cursor-pointer appearance-none">
+                  <!-- Injected via JavaScript -->
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Rename Profile Button -->
+              <button id="btn-rename-profile" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-slate-700" title="현재 환경 프로필 이름 변경">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Cookie Sync Badge -->
+            <div class="flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
+              <span class="text-amber-400">🍪</span>
+              <span id="cookie-sync-text">쿠키 자동 저장 활성 (최대 5개 슬롯)</span>
+            </div>
+          </div>
+
+          <!-- Calibration & Action Buttons Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-2.5">
+              <!-- 웹캠 켜기/끄기 토글 -->
+              <button id="btn-toggle-cam" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 text-sm font-semibold transition flex items-center space-x-2">
+                <svg id="icon-cam-running" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span id="btn-cam-text">일시 정지</span>
+              </button>
+
+              <!-- 기준점 설정 (3초 캘리브레이션) 버튼 -->
+              <button id="btn-calibrate" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:scale-95 text-slate-950 text-sm font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span id="btn-calibrate-text">바른 자세 기준 설정 (3초)</span>
+              </button>
+            </div>
+
+            <!-- 현재 프로필 기준 초기화 버튼 -->
+            <button id="btn-reset-baseline" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 text-xs font-medium transition flex items-center space-x-1.5" title="현재 선택된 환경의 기준값 초기화">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              <span>바른 자세 기준 설정 (3초)</span>
+              <span>현재 환경 초기화</span>
             </button>
           </div>
 
-          <!-- 기준 초기화 버튼 -->
-          <button id="btn-reset-baseline" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 text-xs font-medium transition flex items-center space-x-1.5" title="저장된 기준값 초기화">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            <span>기준 초기화</span>
-          </button>
         </div>
 
       </section>
@@ -500,7 +543,31 @@
           </div>
         </div>
 
-        <!-- Section 1: Quick 3-Step Guide -->
+        <!-- Section 1: Multi-profile & Cookie Storage Guide (NEW) -->
+        <section class="space-y-3">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
+            <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">★</span>
+            <span class="text-emerald-400">환경별 다중 기준 설정 &amp; 쿠키(Cookie) 자동 저장</span>
+          </h3>
+          <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-4 space-y-2.5 text-xs">
+            <p class="text-slate-300 leading-relaxed">
+              의자 높이, 책상 환경(데스크탑, 노트북, 스탠딩 책상 등)에 따라 이상적인 바른 자세의 각도와 높이가 달라집니다.
+              PostureGuardian AI는 <strong>최대 5개의 환경 프로필</strong>을 지원하며, 모든 설정값은 <strong>브라우저 쿠키(Cookie)</strong>에 안전하게 영구 저장됩니다.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-emerald-400">1. 환경 프로필 선택</span><br>
+                <span class="text-slate-400">화면 하단의 [자세 기준 환경] 드롭다운에서 현재 이용 중인 환경(사무실, 노트북, 스탠딩 등)을 선택합니다. 옆의 ✏️ 버튼으로 이름을 자유롭게 바꿀 수 있습니다.</span>
+              </div>
+              <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-emerald-400">2. 쿠키 자동 보존</span><br>
+                <span class="text-slate-400">한 번 [바른 자세 기준 설정 (3초)]을 완료하면 브라우저 쿠키에 자동 저장되어, 브라우저를 닫거나 컴퓨터를 껐다 켜도 내 환경별 기준이 그대로 유지됩니다.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Quick 3-Step Guide -->
         <section class="space-y-3">
           <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
             <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">1</span>
@@ -531,7 +598,7 @@
           </div>
         </section>
 
-        <!-- Section 2: 3 Major Posture Analysis Logics -->
+        <!-- Section 3: 3 Major Posture Analysis Logics -->
         <section class="space-y-4">
           <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
             <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">2</span>
@@ -585,7 +652,7 @@
           </div>
         </section>
 
-        <!-- Section 3: Visual & Audio Feedback -->
+        <!-- Section 4: Visual & Audio Feedback -->
         <section class="space-y-3">
           <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
             <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">3</span>
@@ -613,7 +680,7 @@
           </div>
         </section>
 
-        <!-- Section 4: Recommended Ergonomic Setup -->
+        <!-- Section 5: Recommended Ergonomic Setup -->
         <section class="space-y-3">
           <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
             <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">4</span>
@@ -649,7 +716,7 @@
           </div>
         </section>
 
-        <!-- Section 5: FAQ -->
+        <!-- Section 6: FAQ -->
         <section class="space-y-3">
           <h3 class="text-base font-bold text-white flex items-center space-x-2 border-b border-slate-800 pb-2">
             <span class="w-6 h-6 rounded-md bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xs">5</span>
@@ -661,8 +728,8 @@
               <span class="text-slate-400">A. 브라우저 주소창 좌측의 🔒 자물쇠 아이콘을 눌러 카메라 권한이 '허용'되어 있는지 확인하세요. 다른 화상회의 앱(Zoom 등)에서 카메라를 점유 중인지도 점검해주세요.</span>
             </div>
             <div class="bg-slate-800/30 p-3 rounded-lg border border-slate-800">
-              <strong class="text-white">Q. 경고가 너무 민감하게 울릴 때는 어떻게 하나요?</strong><br>
-              <span class="text-slate-400">A. 바른 자세 기준 설정 시 너무 몸을 과장되게 젖힌 상태에서 측정했을 수 있습니다. 편안하면서도 곧은 바른 자세로 <strong>[바른 자세 기준 설정 (3초)]</strong>을 다시 눌러주세요.</span>
+              <strong class="text-white">Q. 쿠키에 저장된 기준값은 언제까지 유지되나요?</strong><br>
+              <span class="text-slate-400">A. 브라우저 쿠키는 1년(365일) 동안 유지되므로, 매번 다시 캘리브레이션할 필요 없이 환경만 선택하면 즉시 저장된 기준이 로드됩니다.</span>
             </div>
           </div>
         </section>
@@ -687,6 +754,28 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Profile Rename Modal (프로필 이름 변경 모달) -->
+  <div id="rename-profile-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">✏️</span>
+        <h3 class="text-base font-bold text-white">환경 프로필 이름 변경</h3>
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 block mb-1.5">새로운 프로필 이름:</label>
+        <input id="input-profile-name" type="text" maxlength="20" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="예: 재택 듀얼모니터, 거실 소파 등">
+      </div>
+      <div class="flex items-center justify-end space-x-2 pt-1 text-xs font-semibold">
+        <button id="btn-cancel-rename" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+          취소
+        </button>
+        <button id="btn-save-rename" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold transition">
+          저장하기
+        </button>
+      </div>
     </div>
   </div>
 
@@ -717,12 +806,127 @@
     (function () {
       'use strict';
 
+      // --- Cookie Storage Helpers (Standard document.cookie API) ---
+      function setCookie(name, value, days = 365) {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+      }
+
+      function getCookie(name) {
+        const cookies = document.cookie.split('; ');
+        for (let i = 0; i < cookies.length; i++) {
+          const parts = cookies[i].split('=');
+          if (decodeURIComponent(parts[0]) === name) {
+            return decodeURIComponent(parts.slice(1).join('='));
+          }
+        }
+        return null;
+      }
+
+      // --- Default Profile Definitions (Up to 5 Environments) ---
+      const DEFAULT_PROFILES = [
+        { id: 'profile-1', name: '사무실 (데스크탑)', icon: '🖥️', isCalibrated: false, data: null },
+        { id: 'profile-2', name: '노트북 / 카페', icon: '💻', isCalibrated: false, data: null },
+        { id: 'profile-3', name: '스탠딩 데스크', icon: '🧍', isCalibrated: false, data: null },
+        { id: 'profile-4', name: '독서 / 필기', icon: '📖', isCalibrated: false, data: null },
+        { id: 'profile-5', name: '커스텀 환경', icon: '⚙️', isCalibrated: false, data: null }
+      ];
+
+      let profiles = [];
+      let activeProfileId = 'profile-1';
+
+      // Load Profiles from Cookie
+      function loadProfilesFromCookie() {
+        try {
+          const cookieData = getCookie('pg_posture_profiles');
+          const savedActiveId = getCookie('pg_active_profile_id');
+
+          if (cookieData) {
+            const parsed = JSON.parse(cookieData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              profiles = parsed;
+            } else {
+              profiles = JSON.parse(JSON.stringify(DEFAULT_PROFILES));
+            }
+          } else {
+            profiles = JSON.parse(JSON.stringify(DEFAULT_PROFILES));
+          }
+
+          if (savedActiveId && profiles.some(p => p.id === savedActiveId)) {
+            activeProfileId = savedActiveId;
+          } else {
+            activeProfileId = profiles[0].id;
+          }
+        } catch (e) {
+          console.warn('Failed to parse posture profiles cookie:', e);
+          profiles = JSON.parse(JSON.stringify(DEFAULT_PROFILES));
+          activeProfileId = profiles[0].id;
+        }
+      }
+
+      // Save Profiles to Cookie with Compact Landmark Compression
+      function saveProfilesToCookie() {
+        try {
+          // Compact profile data to stay well within 4KB cookie limit
+          const compactProfiles = profiles.map(p => {
+            if (!p.isCalibrated || !p.data) {
+              return { id: p.id, name: p.name, icon: p.icon, isCalibrated: false, data: null };
+            }
+            
+            // Compress ghost landmarks to only critical 11 joints with 3 decimal precision
+            const compactGhost = {};
+            if (p.data.landmarks) {
+              const criticalIndices = [0, 7, 8, 11, 12, 13, 14, 23, 24];
+              criticalIndices.forEach(idx => {
+                const lm = p.data.landmarks[idx];
+                if (lm) {
+                  compactGhost[idx] = [
+                    Math.round(lm.x * 1000) / 1000,
+                    Math.round(lm.y * 1000) / 1000
+                  ];
+                }
+              });
+            }
+
+            return {
+              id: p.id,
+              name: p.name,
+              icon: p.icon,
+              isCalibrated: true,
+              data: {
+                earShoulderRatio: Math.round(p.data.earShoulderRatio * 1000) / 1000,
+                torsoRatio: Math.round(p.data.torsoRatio * 1000) / 1000,
+                shoulderAngle: Math.round(p.data.shoulderAngle * 100) / 100,
+                hasHips: !!p.data.hasHips,
+                compactGhost: compactGhost
+              }
+            };
+          });
+
+          const serialized = JSON.stringify(compactProfiles);
+          setCookie('pg_posture_profiles', serialized, 365);
+          setCookie('pg_active_profile_id', activeProfileId, 365);
+        } catch (err) {
+          console.error('Failed to save posture profiles to cookie:', err);
+        }
+      }
+
       // --- DOM Elements ---
       const videoElement = document.getElementById('webcam');
       const canvasElement = document.getElementById('output-canvas');
       const canvasCtx = canvasElement.getContext('2d');
       const videoCard = document.getElementById('video-card');
       const statusGlow = document.getElementById('status-glow');
+
+      // Profile Elements
+      const profileSelect = document.getElementById('profile-select');
+      const btnRenameProfile = document.getElementById('btn-rename-profile');
+      const btnCalibrateText = document.getElementById('btn-calibrate-text');
+      const countdownTargetProfile = document.getElementById('countdown-target-profile');
+      const renameProfileModal = document.getElementById('rename-profile-modal');
+      const inputProfileName = document.getElementById('input-profile-name');
+      const btnCancelRename = document.getElementById('btn-cancel-rename');
+      const btnSaveRename = document.getElementById('btn-save-rename');
 
       // HUD / Status Pills
       const statusPill = document.getElementById('status-pill');
@@ -799,7 +1003,7 @@
       let mirrorMode = true;
       let showGhostGuideline = true;
 
-      // Calibration Baseline
+      // Calibration Baseline for Active Profile
       let baseline = null;
       let isCalibrating = false;
       let calibrationSamples = [];
@@ -815,6 +1019,88 @@
       // FPS Calculation
       let lastFrameTime = performance.now();
       let frameCount = 0;
+
+      // --- Profile UI Sync & Management ---
+      function renderProfileSelect() {
+        profileSelect.innerHTML = '';
+        profiles.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          const statusText = p.isCalibrated ? '✓ 설정됨' : '미설정';
+          opt.textContent = `${p.icon || '📌'} ${p.name} [${statusText}]`;
+          if (p.id === activeProfileId) {
+            opt.selected = true;
+          }
+          profileSelect.appendChild(opt);
+        });
+
+        syncActiveProfileBaseline();
+      }
+
+      function syncActiveProfileBaseline() {
+        const cur = profiles.find(p => p.id === activeProfileId) || profiles[0];
+        activeProfileId = cur.id;
+
+        btnCalibrateText.textContent = `[${cur.name}] 기준 설정 (3초)`;
+        countdownTargetProfile.textContent = `'${cur.name}' 환경 기준 설정 중`;
+
+        if (cur.isCalibrated && cur.data) {
+          // Reconstruct baseline from profile data
+          baseline = {
+            earShoulderRatio: cur.data.earShoulderRatio,
+            torsoRatio: cur.data.torsoRatio,
+            shoulderAngle: cur.data.shoulderAngle,
+            hasHips: cur.data.hasHips,
+            landmarks: cur.data.landmarks || null,
+            compactGhost: cur.data.compactGhost || null
+          };
+
+          calibIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          calibIndicatorText.textContent = `기준 설정됨 (${cur.name})`;
+          updateStatusUI('good', `'${cur.name}' 환경 기준 적용 완료`);
+        } else {
+          baseline = null;
+          calibIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse';
+          calibIndicatorText.textContent = `기준 미설정 (${cur.name} - 3초 설정 필요)`;
+          updateStatusUI('neutral', `'${cur.name}' 기준 설정을 진행해주세요.`);
+        }
+      }
+
+      profileSelect.addEventListener('change', (e) => {
+        activeProfileId = e.target.value;
+        setCookie('pg_active_profile_id', activeProfileId, 365);
+        syncActiveProfileBaseline();
+        const cur = profiles.find(p => p.id === activeProfileId);
+        showToast(`'${cur.name}' 환경으로 전환되었습니다.`, cur.isCalibrated ? 'success' : 'info');
+      });
+
+      // Rename Profile Modal
+      btnRenameProfile.addEventListener('click', () => {
+        const cur = profiles.find(p => p.id === activeProfileId);
+        if (cur) {
+          inputProfileName.value = cur.name;
+          renameProfileModal.classList.remove('hidden');
+          inputProfileName.focus();
+        }
+      });
+
+      btnCancelRename.addEventListener('click', () => {
+        renameProfileModal.classList.add('hidden');
+      });
+
+      btnSaveRename.addEventListener('click', () => {
+        const newName = inputProfileName.value.trim();
+        if (newName) {
+          const cur = profiles.find(p => p.id === activeProfileId);
+          if (cur) {
+            cur.name = newName;
+            saveProfilesToCookie();
+            renderProfileSelect();
+            showToast(`환경 이름이 '${newName}'(으)로 변경되었습니다.`, 'success');
+          }
+        }
+        renameProfileModal.classList.add('hidden');
+      });
 
       // --- User Guide Modal Controls ---
       function openGuideModal() {
@@ -844,14 +1130,12 @@
         });
       }
 
-      // Close modal on backdrop click
       userGuideModal.addEventListener('click', (e) => {
         if (e.target === userGuideModal) {
           closeGuideModal();
         }
       });
 
-      // Close modal on ESC key
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !userGuideModal.classList.contains('hidden')) {
           closeGuideModal();
@@ -987,7 +1271,7 @@
         });
 
         pose.setOptions({
-          modelComplexity: 1, // Balanced accuracy & performance
+          modelComplexity: 1,
           smoothLandmarks: true,
           enableSegmentation: false,
           smoothSegmentation: false,
@@ -1026,8 +1310,15 @@
           initialOverlay.classList.add('hidden');
           btnCamText.textContent = '일시 정지';
           startPostureTimer();
-          updateStatusUI('good', '자세 분석이 시작되었습니다. 바른 자세 기준을 설정해주세요.');
-          showToast('웹캠이 성공적으로 연결되었습니다!', 'success');
+          
+          const cur = profiles.find(p => p.id === activeProfileId);
+          if (cur && cur.isCalibrated) {
+            updateStatusUI('good', `'${cur.name}' 기준 자세 모니터링 중입니다.`);
+            showToast(`웹캠 연결 완료! '${cur.name}' 기준을 적용합니다.`, 'success');
+          } else {
+            updateStatusUI('neutral', `웹캠 연결 완료. '${cur.name}' 기준을 설정해주세요.`);
+            showToast('웹캠이 연결되었습니다! 3초 기준 설정을 진행해주세요.', 'info');
+          }
         } catch (error) {
           console.error('Camera access failed:', error);
           alert('웹캠을 실행할 수 없습니다. 브라우저 설정에서 카메라 권한이 허용되어 있는지 확인해 주세요.');
@@ -1055,11 +1346,14 @@
       btnResetBaseline.addEventListener('click', resetBaseline);
 
       function resetBaseline() {
-        baseline = null;
-        calibIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse';
-        calibIndicatorText.textContent = '기준 미설정 (3초 캘리브레이션 권장)';
-        updateStatusUI('neutral', '바른 자세 기준 설정을 진행해주세요.');
-        showToast('기준 자세 데이터가 초기화되었습니다.', 'info');
+        const cur = profiles.find(p => p.id === activeProfileId);
+        if (cur) {
+          cur.isCalibrated = false;
+          cur.data = null;
+          saveProfilesToCookie();
+          renderProfileSelect();
+          showToast(`'${cur.name}' 환경의 기준 자세가 초기화되었습니다.`, 'info');
+        }
       }
 
       function startCalibrationCountdown() {
@@ -1135,25 +1429,27 @@
           });
         });
 
-        baseline = {
-          earShoulderRatio: totalEarRatio / numSamples,
-          torsoRatio: totalTorsoRatio / numSamples,
-          shoulderAngle: totalAngle / numSamples,
-          hasHips: (hipCount / numSamples) > 0.5,
-          landmarks: avgLandmarks
-        };
+        // Save to active profile & Cookie!
+        const cur = profiles.find(p => p.id === activeProfileId);
+        if (cur) {
+          cur.isCalibrated = true;
+          cur.data = {
+            earShoulderRatio: totalEarRatio / numSamples,
+            torsoRatio: totalTorsoRatio / numSamples,
+            shoulderAngle: totalAngle / numSamples,
+            hasHips: (hipCount / numSamples) > 0.5,
+            landmarks: avgLandmarks
+          };
 
-        // UI Update
-        calibIndicatorDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
-        calibIndicatorText.textContent = '기준 설정 완료 (실시간 모니터링)';
+          saveProfilesToCookie();
+          renderProfileSelect();
+        }
+
         playSuccessTone();
-        updateStatusUI('good', '기준 자세 설정 완료! 편안하게 작업하세요.');
-        showToast('바른 자세 기준이 성공적으로 저장되었습니다! 🎉', 'success');
+        showToast(`🎉 '${cur ? cur.name : ''}' 기준이 쿠키에 안전하게 저장되었습니다!`, 'success');
       }
 
       // --- Mathematical Posture Analysis ---
-      // Landmarks:
-      // 0: nose, 7: left_ear, 8: right_ear, 11: left_shoulder, 12: right_shoulder, 23: left_hip, 24: right_hip
       function analyzePosture(landmarks) {
         const leftEar = landmarks[7];
         const rightEar = landmarks[8];
@@ -1162,7 +1458,6 @@
         const leftHip = landmarks[23];
         const rightHip = landmarks[24];
 
-        // Minimum visibility requirement for upper torso
         const minVisibility = 0.5;
         if (
           (leftShoulder.visibility < minVisibility && rightShoulder.visibility < minVisibility) ||
@@ -1172,7 +1467,6 @@
         }
 
         // 1. Shoulder Distance (Invariant scale factor)
-        // Person's left shoulder (11) is on image right (x_11 > x_12)
         const dx = leftShoulder.x - rightShoulder.x;
         const dy = leftShoulder.y - rightShoulder.y;
         const shoulderDist = Math.sqrt(dx * dx + dy * dy);
@@ -1187,7 +1481,6 @@
         const earShoulderRatio = shoulderDist > 0 ? (verticalEarShoulderDist / shoulderDist) : 0;
 
         // 3. Hunched Back & Slouching (등굽음 / 척추 압축)
-        // Check if hips are visible
         const hasHips = (leftHip && rightHip && leftHip.visibility > 0.35 && rightHip.visibility > 0.35);
         let torsoRatio = 0;
 
@@ -1196,8 +1489,6 @@
           const verticalTorsoDist = midHipY - midShoulderY;
           torsoRatio = shoulderDist > 0 ? (verticalTorsoDist / shoulderDist) : 0;
         } else {
-          // Fallback: If hips are out of frame (desk occluded),
-          // estimate upper spine compression via ear-to-shoulder vertical distance
           torsoRatio = earShoulderRatio;
         }
 
@@ -1214,7 +1505,6 @@
 
       // --- MediaPipe onResults Callback ---
       function onPoseResults(results) {
-        // FPS Counter
         frameCount++;
         const now = performance.now();
         if (now - lastFrameTime >= 1000) {
@@ -1223,7 +1513,6 @@
           lastFrameTime = now;
         }
 
-        // Resize Canvas to match video
         if (canvasElement.width !== videoElement.videoWidth || canvasElement.height !== videoElement.videoHeight) {
           if (videoElement.videoWidth > 0 && videoElement.videoHeight > 0) {
             canvasElement.width = videoElement.videoWidth;
@@ -1237,7 +1526,6 @@
         canvasCtx.save();
         canvasCtx.clearRect(0, 0, width, height);
 
-        // 1. Draw webcam video frame directly to canvas
         if (results.image) {
           canvasCtx.drawImage(results.image, 0, 0, width, height);
         }
@@ -1251,15 +1539,13 @@
         const landmarks = results.poseLandmarks;
         const analysis = analyzePosture(landmarks);
 
-        // Collect samples if calibrating
         if (isCalibrating && analysis.detected) {
           calibrationSamples.push(analysis);
         }
 
-        // Detailed Posture Checks
         let isTurtleNeck = false;
         let isShoulderImbalance = false;
-        let isSlouching = false; // 등굽음 여부
+        let isSlouching = false;
 
         let turtleRatioPercent = 100;
         let slouchRatioPercent = 100;
@@ -1267,7 +1553,6 @@
         let tiltDirectionText = '균형';
 
         if (analysis.detected) {
-          // Update Mode Badge (전신 척추 vs 상체 추적)
           if (analysis.hasHips) {
             spineModeBadge.textContent = '척추 전신 추적';
             spineModeBadge.className = 'text-[9px] px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 font-mono border border-emerald-500/30';
@@ -1280,33 +1565,19 @@
             turtleRatioPercent = Math.round((analysis.earShoulderRatio / baseline.earShoulderRatio) * 100);
             shoulderAngleDiff = analysis.shoulderAngle - baseline.shoulderAngle;
             
-            // 등굽음 척추 신전율 비교
             const baseTorso = baseline.torsoRatio > 0 ? baseline.torsoRatio : 1.4;
             slouchRatioPercent = Math.round((analysis.torsoRatio / baseTorso) * 100);
           } else {
-            // General defaults when not yet calibrated
             turtleRatioPercent = Math.round((analysis.earShoulderRatio / 0.42) * 100);
             shoulderAngleDiff = analysis.shoulderAngle;
             slouchRatioPercent = Math.round((analysis.torsoRatio / (analysis.hasHips ? 1.40 : 0.42)) * 100);
           }
 
-          // --- Thresholds Evaluation ---
-          // 1. 거북목: 신전율 < 83%
-          if (turtleRatioPercent < 83) {
-            isTurtleNeck = true;
-          }
+          // Thresholds
+          if (turtleRatioPercent < 83) isTurtleNeck = true;
+          if (slouchRatioPercent < 84) isSlouching = true;
+          if (Math.abs(shoulderAngleDiff) >= 3.2) isShoulderImbalance = true;
 
-          // 2. 등굽음: 상체 척추 신전율 < 84%
-          if (slouchRatioPercent < 84) {
-            isSlouching = true;
-          }
-
-          // 3. 어깨 비대칭: 편차 >= 3.2°
-          if (Math.abs(shoulderAngleDiff) >= 3.2) {
-            isShoulderImbalance = true;
-          }
-
-          // Shoulder Direction text
           if (shoulderAngleDiff < -1.5) {
             tiltDirectionText = '좌측 어깨 높음';
           } else if (shoulderAngleDiff > 1.5) {
@@ -1316,9 +1587,11 @@
           }
         }
 
-        // --- Determine Final Frame Status & Guidance ---
         let frameStatus = 'good';
-        let statusMsg = '자세가 좋습니다 😊';
+        const curProfile = profiles.find(p => p.id === activeProfileId);
+        const profileName = curProfile ? curProfile.name : '기본';
+
+        let statusMsg = baseline ? `자세가 좋습니다 (${profileName}) 😊` : `자세가 좋습니다 😊`;
         let adviceMsg = '바른 척추 정렬을 유지하고 있습니다. 주기적으로 어깨와 등을 펴 스트레칭해주세요.';
 
         const issuesCount = (isTurtleNeck ? 1 : 0) + (isShoulderImbalance ? 1 : 0) + (isSlouching ? 1 : 0);
@@ -1349,13 +1622,8 @@
           adviceMsg = '한쪽 어깨로 체중이 쏠려 있습니다. 양쪽 골반과 어깨 수평을 맞춰주세요.';
         }
 
-        // 2. Draw Skeleton, Guidelines, and Visual Feedback on Canvas
         drawSkeleton(canvasCtx, landmarks, width, height, frameStatus, baseline, analysis);
-
-        // 3. Update Dashboard Metrics & Progress Bars
         updateMetricsUI(frameStatus, turtleRatioPercent, slouchRatioPercent, shoulderAngleDiff, tiltDirectionText, statusMsg, adviceMsg, analysis.hasHips);
-
-        // 4. Trigger Audio & Stats Alert
         handleFeedbackAlerts(frameStatus);
 
         canvasCtx.restore();
@@ -1363,13 +1631,11 @@
 
       // --- Draw Skeleton & HUD Overlay onto Canvas ---
       function drawSkeleton(ctx, lms, w, h, status, base, analysis) {
-        // Draw Ghost Guideline if active
-        if (showGhostGuideline && base && base.landmarks) {
-          drawGhostGuideline(ctx, base.landmarks, w, h);
+        if (showGhostGuideline && base) {
+          drawGhostGuideline(ctx, base, w, h);
         }
 
-        // Color coding based on primary defect
-        let jointColor = '#10b981'; // emerald
+        let jointColor = '#10b981';
         let shoulderColor = '#10b981';
         let neckColor = '#10b981';
         let spineColor = '#10b981';
@@ -1380,7 +1646,7 @@
           neckColor = '#ef4444';
           spineColor = '#ef4444';
         } else if (status === 'warning_slouch') {
-          spineColor = '#f59e0b'; // amber
+          spineColor = '#f59e0b';
           jointColor = '#f59e0b';
         } else if (status === 'warning_turtle') {
           neckColor = '#f59e0b';
@@ -1390,14 +1656,14 @@
           jointColor = '#f59e0b';
         }
 
-        // 1. Body Upper Connectors
+        // Connectors
         const connections = [
-          [0, 1], [1, 2], [2, 3], [3, 7], // Left Eye/Ear
-          [0, 4], [4, 5], [5, 6], [6, 8], // Right Eye/Ear
-          [11, 12],                       // Shoulders
-          [11, 13], [13, 15],             // Left Arm
-          [12, 14], [14, 16],             // Right Arm
-          [11, 23], [12, 24], [23, 24]   // Torso
+          [0, 1], [1, 2], [2, 3], [3, 7],
+          [0, 4], [4, 5], [5, 6], [6, 8],
+          [11, 12],
+          [11, 13], [13, 15],
+          [12, 14], [14, 16],
+          [11, 23], [12, 24], [23, 24]
         ];
 
         connections.forEach(([p1, p2]) => {
@@ -1409,7 +1675,6 @@
           let lineColor = 'rgba(255, 255, 255, 0.4)';
           let lineWidth = 3;
 
-          // Highlight Shoulder line
           if ((p1 === 11 && p2 === 12) || (p1 === 12 && p2 === 11)) {
             lineColor = shoulderColor;
             lineWidth = (status === 'warning_shoulder' || status === 'warning_multi') ? 5 : 3.5;
@@ -1424,7 +1689,7 @@
           ctx.stroke();
         });
 
-        // 2. Neck line (Mid Ear -> Mid Shoulder)
+        // Neck line
         const leftEar = lms[7];
         const rightEar = lms[8];
         const leftShoulder = lms[11];
@@ -1450,7 +1715,7 @@
           ctx.setLineDash([]);
         }
 
-        // 3. Central Spine Line (Mid Shoulder -> Mid Hip) for Hunched Back Detection
+        // Spine Line
         if (midShoulder) {
           ctx.beginPath();
           if (leftHip && rightHip && leftHip.visibility > 0.35 && rightHip.visibility > 0.35) {
@@ -1458,7 +1723,6 @@
             ctx.moveTo(midShoulder.x * w, midShoulder.y * h);
             ctx.lineTo(midHip.x * w, midHip.y * h);
           } else {
-            // Downward spine guide extending from mid-shoulder
             ctx.moveTo(midShoulder.x * w, midShoulder.y * h);
             ctx.lineTo(midShoulder.x * w, (midShoulder.y + 0.25) * h);
           }
@@ -1470,7 +1734,7 @@
           ctx.setLineDash([]);
         }
 
-        // 4. Horizontal Guide across Mid Shoulder
+        // Horizontal Guide
         if (leftShoulder && rightShoulder) {
           const midY = ((leftShoulder.y + rightShoulder.y) / 2) * h;
           const leftX = Math.min(leftShoulder.x, rightShoulder.x) * w - 30;
@@ -1486,7 +1750,7 @@
           ctx.setLineDash([]);
         }
 
-        // 5. Joint Landmark Dots
+        // Key Joint Dots
         const keyJoints = [0, 7, 8, 11, 12, 13, 14, 23, 24];
         keyJoints.forEach(idx => {
           const pt = lms[idx];
@@ -1509,13 +1773,11 @@
             dotColor = (status === 'warning_slouch' || status === 'warning_multi') ? '#ef4444' : '#a78bfa';
           }
 
-          // Glow
           ctx.beginPath();
           ctx.arc(cx, cy, radius + 3, 0, 2 * Math.PI);
           ctx.fillStyle = dotColor + '40';
           ctx.fill();
 
-          // Core Dot
           ctx.beginPath();
           ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
           ctx.fillStyle = dotColor;
@@ -1526,35 +1788,45 @@
         });
       }
 
-      // Draw Baseline Ghost Guideline (Cyan Dashed Outline)
-      function drawGhostGuideline(ctx, baseLms, w, h) {
+      // Draw Baseline Ghost Guideline (supports full or compact cookie points)
+      function drawGhostGuideline(ctx, base, w, h) {
         ctx.save();
         ctx.strokeStyle = 'rgba(45, 212, 191, 0.45)';
         ctx.lineWidth = 2;
         ctx.setLineDash([5, 5]);
+
+        function getPoint(idx) {
+          if (base.landmarks && base.landmarks[idx]) {
+            return { x: base.landmarks[idx].x * w, y: base.landmarks[idx].y * h };
+          }
+          if (base.compactGhost && base.compactGhost[idx]) {
+            return { x: base.compactGhost[idx][0] * w, y: base.compactGhost[idx][1] * h };
+          }
+          return null;
+        }
 
         const connections = [
           [11, 12], [11, 13], [12, 14], [11, 23], [12, 24], [23, 24]
         ];
 
         connections.forEach(([p1, p2]) => {
-          const pt1 = baseLms[p1];
-          const pt2 = baseLms[p2];
+          const pt1 = getPoint(p1);
+          const pt2 = getPoint(p2);
           if (!pt1 || !pt2) return;
           ctx.beginPath();
-          ctx.moveTo(pt1.x * w, pt1.y * h);
-          ctx.lineTo(pt2.x * w, pt2.y * h);
+          ctx.moveTo(pt1.x, pt1.y);
+          ctx.lineTo(pt2.x, pt2.y);
           ctx.stroke();
         });
 
         // Head guideline circle
-        const ls = baseLms[11];
-        const rs = baseLms[12];
-        const nose = baseLms[0];
+        const ls = getPoint(11);
+        const rs = getPoint(12);
+        const nose = getPoint(0);
         if (ls && rs && nose) {
-          const headRadius = Math.abs(rs.x - ls.x) * w * 0.32;
+          const headRadius = Math.abs(rs.x - ls.x) * 0.32;
           ctx.beginPath();
-          ctx.arc(nose.x * w, nose.y * h, headRadius, 0, 2 * Math.PI);
+          ctx.arc(nose.x, nose.y, headRadius, 0, 2 * Math.PI);
           ctx.stroke();
         }
 
@@ -1567,8 +1839,6 @@
 
         if (status.startsWith('warning')) {
           badPostureFrameCount++;
-          // Trigger alert after continuous poor posture for ~35 frames (approx 1.2s)
-          // and interval of at least 4.5 seconds between chimes
           const now = performance.now();
           if (badPostureFrameCount >= 35 && (now - lastAudioAlertTime > 4500)) {
             lastAudioAlertTime = now;
@@ -1583,23 +1853,18 @@
 
       // --- Update Dashboard Cards & UI Meters ---
       function updateMetricsUI(status, turtlePct, slouchPct, angleDiff, tiltText, statusMsg, adviceMsg, hasHips) {
-        // 1. Overall Posture Score (0 ~ 100)
-        // Turtle (35 pts), Shoulder (35 pts), Slouch (30 pts)
         let postureScore = 100;
         
-        // Turtle neck penalty (Max 35)
         if (turtlePct < 92) {
           const penalty = Math.min(35, Math.round((92 - turtlePct) * 1.8));
           postureScore -= penalty;
         }
 
-        // 등굽음 penalty (Max 30)
         if (slouchPct < 92) {
           const penalty = Math.min(30, Math.round((92 - slouchPct) * 1.6));
           postureScore -= penalty;
         }
 
-        // Shoulder tilt penalty (Max 35)
         const absAngle = Math.abs(angleDiff);
         if (absAngle > 1.5) {
           const penalty = Math.min(35, Math.round((absAngle - 1.5) * 6));
@@ -1608,7 +1873,6 @@
 
         postureScore = Math.max(10, Math.min(100, postureScore));
 
-        // Score Ring
         overallScoreText.textContent = postureScore;
         const dashOffset = 251.3 * (1 - postureScore / 100);
         scoreCircle.style.strokeDashoffset = String(dashOffset);
@@ -1627,7 +1891,7 @@
           scoreBadge.textContent = '위험 (Poor)';
         }
 
-        // 2. 등굽음 (Hunched Back) Meter
+        // Slouch Meter
         const clampedSlouch = Math.max(40, Math.min(120, slouchPct));
         slouchValueText.textContent = `${slouchPct}%`;
         slouchProgressBar.style.width = `${Math.min(100, Math.max(10, (clampedSlouch - 40) * 1.25))}%`;
@@ -1646,7 +1910,7 @@
           slouchProgressBar.className = 'bg-gradient-to-r from-rose-600 to-red-500 h-full rounded-full transition-all duration-300';
         }
 
-        // 3. Turtle Neck Meter
+        // Turtle Neck Meter
         const clampedTurtle = Math.max(40, Math.min(120, turtlePct));
         turtleValueText.textContent = `${turtlePct}%`;
         turtleProgressBar.style.width = `${Math.min(100, Math.max(10, (clampedTurtle - 40) * 1.25))}%`;
@@ -1665,11 +1929,10 @@
           turtleProgressBar.className = 'bg-gradient-to-r from-rose-600 to-red-500 h-full rounded-full transition-all duration-300';
         }
 
-        // 4. Shoulder Balance Meter
+        // Shoulder Balance Meter
         const formattedAngle = Math.abs(angleDiff).toFixed(1);
         shoulderTiltText.textContent = `${formattedAngle}° (${tiltText})`;
 
-        // Needle Position (-12 deg to +12 deg mapped to 0% - 100%)
         const maxRange = 12;
         const clampedDiff = Math.max(-maxRange, Math.min(maxRange, angleDiff));
         const needlePercent = 50 + (clampedDiff / maxRange) * 50;
@@ -1689,7 +1952,7 @@
           shoulderNeedle.className = 'absolute w-2.5 h-4 bg-rose-500 rounded-sm shadow-md transition-all duration-300';
         }
 
-        // 5. Detailed Summary Box
+        // Detailed Summary Box
         statusDetailedSummary.textContent = statusMsg;
         statusAdviceText.textContent = adviceMsg;
 
@@ -1701,7 +1964,6 @@
           statusDetailedSummary.className = 'text-base font-bold text-slate-300 leading-snug';
         }
 
-        // 6. Border & Frame Accent
         updateStatusUI(status, statusMsg);
       }
 
@@ -1724,6 +1986,15 @@
           statusPillDot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400 animate-pulse flex-shrink-0';
           statusPill.className = 'bg-slate-900/90 backdrop-blur-md border border-slate-700 text-slate-300 px-4 py-2 rounded-full shadow-lg flex items-center space-x-2 text-sm font-semibold transition-all duration-300 max-w-md text-center';
         }
+      }
+
+      // --- Initialization On Load ---
+      loadProfilesFromCookie();
+      renderProfileSelect();
+
+      const initialActive = profiles.find(p => p.id === activeProfileId);
+      if (initialActive && initialActive.isCalibrated) {
+        showToast(`🍪 쿠키에서 '${initialActive.name}' 기준 자세를 성공적으로 불러왔습니다.`, 'success');
       }
 
     })();
