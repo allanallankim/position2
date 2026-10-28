@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@mediapipe/camera_utils": "0.3.1675466862",
+    "@mediapipe/pose": "0.5.1675469404",
+    "tailwindcss": "3.4.17"
+  },
+  "scripts": {
+    "build": "python scripts/build-extension.py",
+    "test": "node --test --test-isolation=none scripts/test-extension.cjs"
+  }
+}

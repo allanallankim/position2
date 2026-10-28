@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "PostureGuardian AI",
+  "version": "1.0.0",
+  "description": "웹캠 자세 분석 점수와 경고를 오른쪽 아래 위젯으로 표시합니다.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "offscreen"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_title": "자세 분석 열기"},
+  "content_scripts": [{"matches": ["http://*/*", "https://*/*"], "js": ["widget.js"], "run_at": "document_start"}],
+  "content_security_policy": {"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"}
+}
