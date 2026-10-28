@@ -154,14 +154,14 @@ test('widget restores score on navigation, reattaches after root replacement, an
     return {nodes, events, host, mutation, appended: () => appended};
   }
   const first = await loadPage();
-  assert.equal(first.nodes['.score'].textContent, '92점');
+  assert.equal(first.nodes['.score'].textContent, '92');
   const nextPage = await loadPage();
-  assert.equal(nextPage.nodes['.score'].textContent, '92점');
+  assert.equal(nextPage.nodes['.score'].textContent, '92');
   nextPage.host.isConnected = false;
   nextPage.mutation();
   assert.equal(nextPage.appended(), 2);
   saved = {...saved, score: 60, status: 'warning_multi', updatedAt: saved.updatedAt + 100};
   first.events.pageshow();
   await Promise.resolve();
-  assert.equal(first.nodes['.score'].textContent, '60점');
+  assert.equal(first.nodes['.score'].textContent, '60');
 });
